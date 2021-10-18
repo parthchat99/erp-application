@@ -34,7 +34,7 @@ exports.login = async (req, res) => {
 
         const user = await User.findOne({ email });
 
-        if (!user) return res.status(401).json({msg: 'The email address ' + email + ' is not associated with any account. Double-check your email address and try again.'});
+        if (!user) return res.status(401).json({message: 'The email address ' + email + ' is not associated with any account. Double-check your email address and try again.'});
 
         //validate password
         if (!user.comparePassword(password)) return res.status(401).json({message: 'Invalid email or password'});
@@ -50,7 +50,13 @@ exports.login = async (req, res) => {
             res.status(200).json({token: token, user: user});
         }
         else{
-            return res.status(401).json({message: 'User already logged in!!!'});
+            let token = null;
+            user.accessToken = token;
+            await user.save();
+            token = user.generateJWT();
+            user.accessToken = token;
+            await user.save();
+            res.status(200).json({token: token, user: user});
         }
     } catch (error) {
         res.status(500).json({message: error.message})
@@ -59,11 +65,11 @@ exports.login = async (req, res) => {
 
 exports.logout = async (req, res) => {
     try {
-        const email = req.body.email;
+        const id = req.body._id;
 
-        const user = await User.findOne({ email });
+        const user = await User.findOne({ _id:id });
 
-        console.log("user", user)
+        // console.log("user", user)
         // Logout successful, remove token, and send back user
         if(user.accessToken != null){
             let token = null;
@@ -142,8 +148,11 @@ async function sendVerificationEmail(user, req, res){
         let to = user.email;
         let from = process.env.FROM_EMAIL;
         let link="http://"+req.headers.host+"/api/auth/verify/"+token.token;
-        let html = `<p>Hi ${user.username}<p><br><p>Please click on the following <a href="${link}">link</a> to verify your account.</p> 
-                  <br><p>If you did not request this, please ignore this email.</p>`;
+        let html = `<p>Hi ${user.username}<p>
+                    <br>
+                    <p>Please click on the following <a href="${link}">link</a> to verify your account.</p> 
+                    <br>
+                    <p>If you did not request this, please ignore this email.</p>`;
 
         await sendEmail({to, from, subject, html});
 

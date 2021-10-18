@@ -1,4 +1,8 @@
 /* You can add global styles to this file, and also import other style files */
+@import "~@ng-select/ng-select/themes/material.theme.css";
+@import '@angular/material/prebuilt-themes/indigo-pink.css';
+@import '../node_modules/material-icons/iconfont/material-icons.css';
+
 a { cursor: pointer }
 
 .app-container {
@@ -10,4 +14,41 @@ a { cursor: pointer }
     width: 40px;
     text-align: center;
     box-sizing: content-box;
+}
+
+// snackbar
+.mat-snack-bar-container {
+    background-color: #fff !important;
+}
+
+.mat-simple-snackbar span {
+    color: #d71920 !important;
+}
+.header-title {
+    color: #404040 !important;
+}
+.uppercase {
+    text-transform: uppercase;
+}
+
+.mat-toolbar.mat-primary {
+    background: #0f586c;
+    color: #fff;
+}
+
+.mat-list-base .mat-list-item .mat-list-item-content, .mat-list-base .mat-list-option .mat-list-item-content {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    box-sizing: border-box;
+    padding: 0 16px;
+    position: relative;
+    height: inherit;
+    width: 20vw;
+    // background: #0f586c;
+    // color: #fff;
+}
+
+:host-context(mat-sidenav-content) { /* same for .mat-sidenav-content */
+    overflow: unset !important;
 }

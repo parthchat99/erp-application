@@ -16,7 +16,8 @@ router.post('/register', [
     check('password').not().isEmpty().isLength({min: 6}).withMessage('Must be at least 6 chars long'),
     check('firstName').not().isEmpty().withMessage('Firstname is required'),
     check('lastName').not().isEmpty().withMessage('Lastname is required'),
-    check('role').not().isEmpty().withMessage('Role is required')
+    check('role').not().isEmpty().withMessage('Role is required'),
+    check('username').not().isEmpty().withMessage('Username is required')
 ], validate, Auth.register);
 
 router.post("/login", [

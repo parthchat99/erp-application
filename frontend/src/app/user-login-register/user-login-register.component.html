@@ -1,0 +1,150 @@
+<div class="layout">
+    <nav class="navbar navbar-light bg-light">
+        <a class="navbar-brand">
+            <img src="../../assets/images/2.png" width="30" height="30" class="d-inline-block align-top" alt="">
+            ProcessFlux
+        </a>
+      </nav>
+
+    <div class="card w-75 mx-auto custom-card" *ngIf="isRegister == false">
+        <h4 class="card-header" style="color:#0f586c;">Login</h4>
+        <div class="card-body">
+            <form [formGroup]="signInFormGroup">
+                <div class="form-group">
+                    <label for="email">Email-Id</label>
+                    <input type="text" autocomplete="off" formControlName="email" class="form-control"/>
+                    <div *ngIf="signInFormGroup.get('email').invalid && signInFormGroup.get('email').touched" class="left-space">
+                        <div *ngIf="signInFormGroup.get('email').errors['required']">
+                            Email-Id is required
+                        </div>
+                        <span *ngIf="signInFormGroup.get('email').errors['pattern']">
+                            Please enter correct Email-id
+                        </span>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="password">Password</label>
+                    <input type="password" autocomplete="off" formControlName="password" class="form-control" />
+                    <div *ngIf="signInFormGroup.get('password').invalid && signInFormGroup.get('password').touched" class="left-space">
+                        <div *ngIf="signInFormGroup.get('password').errors['required']">
+                            Password is required
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <button [disabled]="loading || signInFormGroup.invalid" class="btn btn-primary" (click)="signIn()" style="background-color: #0f586c;">
+                        <span *ngIf="loading" class="spinner-border spinner-border-sm mr-1"></span>
+                        Login
+                    </button>
+                    <a (click)="loginRegister(2)" class="btn btn-link">Register</a>
+                </div>
+            </form>
+        </div>
+    </div>
+    
+    <div class="card w-75 mx-auto custom-card-register" *ngIf="isRegister == true">
+        <h4 class="card-header" style="color:#0f586c;">Register</h4>
+        <div class="card-body">
+            <form [formGroup]="signUpFormGroup">
+                
+                <div class="container">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <label for="email">Email-Id</label>
+                            <input type="text" autocomplete="off" formControlName="email" class="form-control"/>
+                            <div *ngIf="signUpFormGroup.get('email').invalid && signUpFormGroup.get('email').touched" class="left-space">
+                                <div *ngIf="signUpFormGroup.get('email').errors['required']">
+                                    Email-Id is required
+                                </div>
+                                <span *ngIf="signUpFormGroup.get('email').errors['pattern']">
+                                    Please enter correct Email-id
+                                </span>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <label for="username">User Name</label>
+                            <input type="text" autocomplete="off" formControlName="username" class="form-control"/>
+                            <div *ngIf="signUpFormGroup.get('username').invalid && signUpFormGroup.get('username').touched" class="left-space">
+                                <div *ngIf="signUpFormGroup.get('username').errors['required']">
+                                    User Name is required
+                                </div>
+                                <div *ngIf="signUpFormGroup.get('username').errors['maxlength']">
+                                    Maximum limit 50 Characters
+                                </div>
+                                <div *ngIf="signUpFormGroup.get('username').errors['minlength']">
+                                    Minimum limit 1 Characters
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="container">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <label for="firstName">First Name</label>
+                            <input type="text" autocomplete="off" formControlName="firstName" class="form-control"/>
+                            <div *ngIf="signUpFormGroup.get('firstName').invalid && signUpFormGroup.get('firstName').touched" class="left-space">
+                                <div *ngIf="signUpFormGroup.get('firstName').errors['required']">
+                                    First Name is required
+                                </div>
+                                <div *ngIf="signUpFormGroup.get('firstName').errors['maxlength']">
+                                    Maximum limit 50 Characters
+                                </div>
+                                <div *ngIf="signUpFormGroup.get('firstName').errors['minlength']">
+                                    Minimum limit 1 Characters
+                                </div>
+                            </div>
+                        </div>
+        
+                        <div class="col-md-6">
+                            <label for="lastName">Last Name</label>
+                            <input type="text" autocomplete="off" formControlName="lastName" class="form-control"/>
+                            <div *ngIf="signUpFormGroup.get('lastName').invalid && signUpFormGroup.get('lastName').touched" class="left-space">
+                                <div *ngIf="signUpFormGroup.get('lastName').errors['required']">
+                                    Last Name is required
+                                </div>
+                                <div *ngIf="signUpFormGroup.get('lastName').errors['maxlength']">
+                                    Maximum limit 50 Characters
+                                </div>
+                                <div *ngIf="signUpFormGroup.get('lastName').errors['minlength']">
+                                    Minimum limit 1 Characters
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="password">Password</label>
+                    <input type="password" autocomplete="off" formControlName="password" class="form-control" />
+                    <div *ngIf="signUpFormGroup.get('password').invalid && signUpFormGroup.get('password').touched" class="left-space">
+                        <div *ngIf="signUpFormGroup.get('password').errors['required']">
+                            Password is required
+                        </div>
+                        <div *ngIf="signUpFormGroup.get('password').errors['maxlength']">
+                            Maximum limit 50 Characters
+                        </div>
+                        <div *ngIf="signUpFormGroup.get('password').errors['minlength']">
+                            Minimum limit 6 Characters
+                        </div>
+                    </div>
+                </div>
+
+                <label for="role" style="margin-bottom: 1vw;">Role</label>
+                <ng-select formControlName="role">
+                    <ng-option value="1">Administrator</ng-option>
+                    <ng-option value="2">Normal User</ng-option>
+                 </ng-select>
+                
+                <div class="form-group">
+                    <button [disabled]="loading || signUpFormGroup.invalid" class="btn btn-primary" (click)="signUp()" style="background-color: #0f586c;">
+                        <span *ngIf="loading" class="spinner-border spinner-border-sm mr-1"></span>
+                        Register
+                    </button>
+                    <a (click)="loginRegister(1)" class="btn btn-link">Cancel</a>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
